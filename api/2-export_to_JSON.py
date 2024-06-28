@@ -7,7 +7,7 @@ import requests
 import sys
 
 
-def fetch_user_info(user_id):
+def get_user_info(user_id):
     """
     Retrieve user information by user ID.
     """
@@ -16,7 +16,7 @@ def fetch_user_info(user_id):
     return response.json()
 
 
-def fetch_user_todos(user_id):
+def get_user_todos(user_id):
     """
     Retrieve the TODO list for the user by user ID.
     """
@@ -25,7 +25,7 @@ def fetch_user_todos(user_id):
     return response.json()
 
 
-def save_to_json(user_id, todos):
+def save_todos_to_json(user_id, todos):
     """
     Save the TODO list to a JSON file.
     """
@@ -34,29 +34,29 @@ def save_to_json(user_id, todos):
         json.dump({user_id: todos}, file)
 
 
-def run(user_id):
+def main(user_id):
     """
     Main function to get user info and TODO list, then save to JSON.
     """
-    user_info = fetch_user_info(user_id)
-    todos_info = fetch_user_todos(user_id)
+    user_info = get_user_info(user_id)
+    todos_info = get_user_todos(user_id)
 
-    user_username = user_info["username"]
+    username = user_info["username"]
 
-    todos_to_save = [
+    todos_list = [
         {
             "task": task["title"],
             "completed": task["completed"],
-            "username": user_username
+            "username": username
         } for task in todos_info
     ]
 
-    save_to_json(user_id, todos_to_save)
+    save_todos_to_json(user_id, todos_list)
 
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
-        run(sys.argv[1])
+        main(sys.argv[1])
     else:
         print("Usage: ./2-export_to_JSON.py <user_id>")
 
