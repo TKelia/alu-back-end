@@ -59,4 +59,3 @@ if __name__ == "__main__":
         main(sys.argv[1])
     else:
         print("Usage: ./2-export_to_JSON.py <user_id>")
-
